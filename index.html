@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>義大利多洛米蒂 (Dolomites) 地點發音與中義德英對照指南</title>
+  <meta name="description" content="2026義大利多洛米蒂（Dolomites）行程地點互動式中英文對照表與真人語音朗讀，收錄72個山峰、山口、湖泊、山屋及餐廳發音。">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Background Wallpaper Overlay -->
+  <div class="bg-overlay"></div>
+
+  <div class="container">
+    <!-- Header Hero Section -->
+    <header class="hero-header">
+      <div class="hero-badge">
+        <span>🇮🇹 義大利多洛米蒂行程獨家語音隨行卡</span>
+      </div>
+      <h1 class="hero-title">多洛米蒂 (Dolomites) 地點發音與中英對照指南</h1>
+      <p class="hero-subtitle">
+        收錄行程中 72 個城市、山峰、山口、湖泊、山屋與餐廳名單。支援 Web Speech 語音朗讀（義語/德語/英語/中文）、國際音標及每日行程天數索引。
+      </p>
+
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-num" id="totalCountSpan">72 個地點</div>
+          <div class="stat-label">全行程精選地名</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">8 大類別</div>
+          <div class="stat-label">自然與人文景點</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">14 天行程</div>
+          <div class="stat-label">每日天數對照</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">🔊 雙語朗讀</div>
+          <div class="stat-label">真人發音引擎</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Controls Box (Search, Filter, Days) -->
+    <section class="controls-card">
+      <!-- Search Input -->
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="搜尋地名、中文譯名、發音指南 (如: Seceda, 三峰山, Braies, 纜車)...">
+        <button id="clearSearchBtn" class="clear-search-btn" title="清除搜尋">✕</button>
+      </div>
+
+      <!-- Categories Filter -->
+      <div class="filter-label">🏷️ 分類篩選</div>
+      <div class="category-tags" id="categoryTags">
+        <!-- Category Buttons Rendered via JS -->
+      </div>
+
+      <!-- Itinerary Day Filter -->
+      <div class="filter-label">📅 行程天數索引 (Day 0 - Day 14)</div>
+      <div class="day-filters" id="dayFilters">
+        <!-- Day Buttons Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- View Modes & Toolbar -->
+    <div class="view-tabs-bar">
+      <div class="view-tabs">
+        <button class="view-tab-btn active" data-view="cards">
+          <span>🎴 發音卡片</span>
+        </button>
+        <button class="view-tab-btn" data-view="table">
+          <span>📊 對照表格</span>
+        </button>
+        <button class="view-tab-btn" data-view="flashcards">
+          <span>🗂️ 練習記憶卡</span>
+        </button>
+        <button class="view-tab-btn" data-view="itinerary">
+          <span>🗺️ 行程天數巡禮</span>
+        </button>
+      </div>
+
+      <div class="tools-right">
+        <button class="fav-only-btn" id="favOnlyBtn">
+          <span>❤️ 僅顯示收藏</span>
+        </button>
+        <button class="voice-settings-btn" id="voiceSettingsBtn">
+          <span>⚙️ 語音設定</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main View Content Area -->
+    <main id="viewContentArea">
+      <!-- Dynamic Content Rendered Here -->
+    </main>
+  </div>
+
+  <!-- Floating Audio Player Bar -->
+  <div class="floating-audio-bar hidden" id="floatingAudioBar">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div class="wave-bars">
+        <span class="wave-bar"></span>
+        <span class="wave-bar"></span>
+        <span class="wave-bar"></span>
+      </div>
+      <div>
+        <div style="font-weight: 700; color: #fff; font-size: 0.95rem;" id="floatingTitle">Location</div>
+        <div style="font-size: 0.8rem; color: var(--text-highlight);" id="floatingZh">中文名稱</div>
+      </div>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <button class="play-audio-btn" style="padding: 6px 14px; font-size: 0.85rem;" id="floatingPlayBtn">重播 🔄</button>
+      <button class="cat-btn" style="padding: 6px 14px; font-size: 0.85rem;" id="floatingStopBtn">停止 ⏹️</button>
+    </div>
+  </div>
+
+  <!-- Voice Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">⚙️ 語音朗讀設定 (TTS Settings)</h3>
+        <button class="clear-search-btn" id="closeModalBtn" style="display: block; position: static;">✕</button>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">義大利語發音人聲 (Italian Voice)</label>
+        <select class="form-select" id="voiceItSelect"></select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">德語發音人聲 (German Voice - 南蒂羅爾地名)</label>
+        <select class="form-select" id="voiceDeSelect"></select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">中文翻譯發音人聲 (Traditional Chinese Voice)</label>
+        <select class="form-select" id="voiceZhSelect"></select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">朗讀速度 (Speech Speed): <span id="ttsSpeedVal" style="color: var(--cyan-glacier); font-weight:700;">1.0x</span></label>
+        <input type="range" class="form-range" id="ttsSpeedRange" min="0.5" max="1.5" step="0.1" value="1.0">
+      </div>
+
+      <div class="form-group" style="display: flex; align-items: center; justify-content: space-between;">
+        <label class="form-label" style="margin-bottom: 0;">自動雙語連讀 (外文發音後自動讀中文)</label>
+        <input type="checkbox" id="autoBilingualToggle" checked style="width: 20px; height: 20px; cursor: pointer;">
+      </div>
+
+      <div style="margin-top: 24px; display: flex; gap: 12px;">
+        <button class="play-audio-btn" id="testVoiceBtn" style="width: 100%; justify-content: center;">
+          🔊 測試語音播放 (Dolomites)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS Data and Logic -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
