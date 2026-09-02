@@ -16,7 +16,8 @@ const DOLOMITES_DATA = [
       8,
       9,
       10
-    ]
+    ],
+    "en_speech": "The Dolomites"
   },
   {
     "id": "item-2",
@@ -32,7 +33,8 @@ const DOLOMITES_DATA = [
       6,
       7,
       8
-    ]
+    ],
+    "en_speech": "Cortina d'Ampezzo"
   },
   {
     "id": "item-3",
@@ -46,7 +48,8 @@ const DOLOMITES_DATA = [
       8,
       9,
       10
-    ]
+    ],
+    "en_speech": "Santa Cristina in Val Gardena"
   },
   {
     "id": "item-4",
@@ -59,7 +62,8 @@ const DOLOMITES_DATA = [
     "days": [
       8,
       9
-    ]
+    ],
+    "en_speech": "Ortisei"
   },
   {
     "id": "item-5",
@@ -71,7 +75,8 @@ const DOLOMITES_DATA = [
     "lang": "de-DE",
     "days": [
       10
-    ]
+    ],
+    "en_speech": "Val di Funes Valley"
   },
   {
     "id": "item-6",
@@ -81,7 +86,8 @@ const DOLOMITES_DATA = [
     "zh": "加代納山谷 (瓦爾加代納)",
     "note": "西多羅米蒂主要河谷區域",
     "lang": "de-DE",
-    "days": []
+    "days": [],
+    "en_speech": "Val Gardena Valley"
   },
   {
     "id": "item-7",
@@ -93,7 +99,8 @@ const DOLOMITES_DATA = [
     "lang": "de-DE",
     "days": [
       11
-    ]
+    ],
+    "en_speech": "Bolzano"
   },
   {
     "id": "item-8",
@@ -105,7 +112,8 @@ const DOLOMITES_DATA = [
     "lang": "de-DE",
     "days": [
       8
-    ]
+    ],
+    "en_speech": "Bressanone"
   },
   {
     "id": "item-9",
@@ -118,7 +126,8 @@ const DOLOMITES_DATA = [
     "days": [
       4,
       8
-    ]
+    ],
+    "en_speech": "Dobbiaco"
   },
   {
     "id": "item-10",
@@ -130,7 +139,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       10
-    ]
+    ],
+    "en_speech": "Chiusa"
   },
   {
     "id": "item-11",
@@ -146,7 +156,8 @@ const DOLOMITES_DATA = [
       11,
       12,
       13
-    ]
+    ],
+    "en_speech": "Milan"
   },
   {
     "id": "item-12",
@@ -160,7 +171,8 @@ const DOLOMITES_DATA = [
       1,
       2,
       3
-    ]
+    ],
+    "en_speech": "Venice Mestre"
   },
   {
     "id": "item-13",
@@ -170,7 +182,8 @@ const DOLOMITES_DATA = [
     "zh": "維羅納 (威羅納)",
     "note": "義大利北部歷史名城 (備選轉乘點)",
     "lang": "it-IT",
-    "days": []
+    "days": [],
+    "en_speech": "Verona"
   },
   {
     "id": "item-14",
@@ -182,7 +195,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       9
-    ]
+    ],
+    "en_speech": "Mount Seceda"
   },
   {
     "id": "item-15",
@@ -194,7 +208,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       9
-    ]
+    ],
+    "en_speech": "Fermeda Peaks"
   },
   {
     "id": "item-16",
@@ -206,7 +221,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       9
-    ]
+    ],
+    "en_speech": "Pieralongia Twins"
   },
   {
     "id": "item-17",
@@ -218,7 +234,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       10
-    ]
+    ],
+    "en_speech": "Sassolungo\n(Langkofel)"
   },
   {
     "id": "item-18",
@@ -230,7 +247,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       7
-    ]
+    ],
+    "en_speech": "Tre Cime di Lavaredo\n(Drei Zinnen)"
   },
   {
     "id": "item-19",
@@ -242,7 +260,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       6
-    ]
+    ],
+    "en_speech": "Mount Lagazuoi"
   },
   {
     "id": "item-20",
@@ -252,7 +271,8 @@ const DOLOMITES_DATA = [
     "zh": "蓋斯勒群峰 / 奧德勒山群",
     "note": "富內斯谷背景襯托之鋸齒狀鋸齒山峰",
     "lang": "it-IT",
-    "days": []
+    "days": [],
+    "en_speech": "Geisler Peaks"
   },
   {
     "id": "item-21",
@@ -262,7 +282,8 @@ const DOLOMITES_DATA = [
     "zh": "紅岩山",
     "note": "Alta Via 1 縱走途經之紅色岩壁大山",
     "lang": "it-IT",
-    "days": []
+    "days": [],
+    "en_speech": "Croda Rossa\n(Hohe Gaisl)"
   },
   {
     "id": "item-22",
@@ -278,7 +299,8 @@ const DOLOMITES_DATA = [
       6,
       7,
       8
-    ]
+    ],
+    "en_speech": "Mount Tofana"
   },
   {
     "id": "item-23",
@@ -288,7 +310,8 @@ const DOLOMITES_DATA = [
     "zh": "馬爾莫拉達山",
     "note": "多洛米蒂最高峰 (白雲石女王)",
     "lang": "it-IT",
-    "days": []
+    "days": [],
+    "en_speech": "Mount Marmolada"
   },
   {
     "id": "item-24",
@@ -300,7 +323,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       6
-    ]
+    ],
+    "en_speech": "Falzarego Pass"
   },
   {
     "id": "item-25",
@@ -312,7 +336,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       10
-    ]
+    ],
+    "en_speech": "Sella Pass"
   },
   {
     "id": "item-26",
@@ -324,7 +349,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       6
-    ]
+    ],
+    "en_speech": "Limo Pass"
   },
   {
     "id": "item-27",
@@ -336,7 +362,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       4
-    ]
+    ],
+    "en_speech": "Sora Forno Pass"
   },
   {
     "id": "item-28",
@@ -348,7 +375,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       6
-    ]
+    ],
+    "en_speech": "Lake Pass"
   },
   {
     "id": "item-29",
@@ -360,7 +388,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       7
-    ]
+    ],
+    "en_speech": "Lavaredo Pass"
   },
   {
     "id": "item-30",
@@ -370,7 +399,8 @@ const DOLOMITES_DATA = [
     "zh": "普蘭德格拉巴",
     "note": "前往 Passo Sella 之公車轉接節點",
     "lang": "it-IT",
-    "days": []
+    "days": [],
+    "en_speech": "Plan de Gralba"
   },
   {
     "id": "item-31",
@@ -380,7 +410,8 @@ const DOLOMITES_DATA = [
     "zh": "格拉瓦隆加谷地",
     "note": "三峰山北側穿越之高山開闊谷地",
     "lang": "it-IT",
-    "days": []
+    "days": [],
+    "en_speech": "Grava Longa Valley"
   },
   {
     "id": "item-32",
@@ -392,7 +423,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       4
-    ]
+    ],
+    "en_speech": "Lago di Braies\n(Pragser Wildsee)"
   },
   {
     "id": "item-33",
@@ -404,7 +436,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       6
-    ]
+    ],
+    "en_speech": "Lake Lagazuoi"
   },
   {
     "id": "item-34",
@@ -417,7 +450,8 @@ const DOLOMITES_DATA = [
     "days": [
       5,
       6
-    ]
+    ],
+    "en_speech": "Lé Vërt\n(Lago Verde"
   },
   {
     "id": "item-35",
@@ -429,7 +463,8 @@ const DOLOMITES_DATA = [
     "lang": "de-DE",
     "days": [
       4
-    ]
+    ],
+    "en_speech": "Biella Mountain Hut"
   },
   {
     "id": "item-36",
@@ -441,7 +476,8 @@ const DOLOMITES_DATA = [
     "lang": "de-DE",
     "days": [
       4
-    ]
+    ],
+    "en_speech": "Refuge Sennes\n(Sennes Hütte)"
   },
   {
     "id": "item-37",
@@ -453,7 +489,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       4
-    ]
+    ],
+    "en_speech": "Fodara Vedla Mountain Hut"
   },
   {
     "id": "item-38",
@@ -465,7 +502,8 @@ const DOLOMITES_DATA = [
     "lang": "de-DE",
     "days": [
       5
-    ]
+    ],
+    "en_speech": "Pederu Mountain Hut"
   },
   {
     "id": "item-39",
@@ -478,7 +516,8 @@ const DOLOMITES_DATA = [
     "days": [
       5,
       6
-    ]
+    ],
+    "en_speech": "Lavarella Mountain Hut"
   },
   {
     "id": "item-40",
@@ -491,7 +530,8 @@ const DOLOMITES_DATA = [
     "days": [
       5,
       6
-    ]
+    ],
+    "en_speech": "Fanes Mountain Hut"
   },
   {
     "id": "item-41",
@@ -503,7 +543,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       6
-    ]
+    ],
+    "en_speech": "Lagazuoi Mountain Hut"
   },
   {
     "id": "item-42",
@@ -515,7 +556,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       7
-    ]
+    ],
+    "en_speech": "Auronzo Mountain Hut"
   },
   {
     "id": "item-43",
@@ -527,7 +569,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       7
-    ]
+    ],
+    "en_speech": "Lavaredo Mountain Hut"
   },
   {
     "id": "item-44",
@@ -539,7 +582,8 @@ const DOLOMITES_DATA = [
     "lang": "de-DE",
     "days": [
       7
-    ]
+    ],
+    "en_speech": "Locatelli Mountain Hut"
   },
   {
     "id": "item-45",
@@ -551,7 +595,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       9
-    ]
+    ],
+    "en_speech": "Sofie Mountain Hut"
   },
   {
     "id": "item-46",
@@ -563,7 +608,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       9
-    ]
+    ],
+    "en_speech": "Pieralongia Alm"
   },
   {
     "id": "item-47",
@@ -573,7 +619,8 @@ const DOLOMITES_DATA = [
     "zh": "蓋斯勒農莊 (蓋斯勒山屋)",
     "note": "富內斯谷 Adolf Munkel 步道終點農莊",
     "lang": "it-IT",
-    "days": []
+    "days": [],
+    "en_speech": "Malga Geisler\n(Geisleralm)"
   },
   {
     "id": "item-48",
@@ -585,7 +632,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       10
-    ]
+    ],
+    "en_speech": "Toni Demetz Mountain Hut"
   },
   {
     "id": "item-49",
@@ -597,7 +645,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       2
-    ]
+    ],
+    "en_speech": "Saint Mark's Square"
   },
   {
     "id": "item-50",
@@ -609,7 +658,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       2
-    ]
+    ],
+    "en_speech": "Saint Mark's Basilica"
   },
   {
     "id": "item-51",
@@ -621,7 +671,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       2
-    ]
+    ],
+    "en_speech": "Doges Palace"
   },
   {
     "id": "item-52",
@@ -631,7 +682,8 @@ const DOLOMITES_DATA = [
     "zh": "嘆息橋",
     "note": "連接總督宮與監獄之著名巴洛克橋樑",
     "lang": "it-IT",
-    "days": []
+    "days": [],
+    "en_speech": "Ponte dei Sospiri\n(Bridge of Sighs)"
   },
   {
     "id": "item-53",
@@ -643,7 +695,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       2
-    ]
+    ],
+    "en_speech": "Rialto Bridge"
   },
   {
     "id": "item-54",
@@ -655,7 +708,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       2
-    ]
+    ],
+    "en_speech": "Rialto Market"
   },
   {
     "id": "item-55",
@@ -667,7 +721,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       2
-    ]
+    ],
+    "en_speech": "Accademia Bridge"
   },
   {
     "id": "item-56",
@@ -683,7 +738,8 @@ const DOLOMITES_DATA = [
       11,
       12,
       13
-    ]
+    ],
+    "en_speech": "Milan Cathedral"
   },
   {
     "id": "item-57",
@@ -695,7 +751,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       12
-    ]
+    ],
+    "en_speech": "Galleria Vittorio Emanuele"
   },
   {
     "id": "item-58",
@@ -707,7 +764,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       12
-    ]
+    ],
+    "en_speech": "Sforza Castle"
   },
   {
     "id": "item-59",
@@ -717,7 +775,8 @@ const DOLOMITES_DATA = [
     "zh": "森皮奧內公園",
     "note": "斯福爾扎古堡後方綠地公園",
     "lang": "it-IT",
-    "days": []
+    "days": [],
+    "en_speech": "Sempione Park"
   },
   {
     "id": "item-60",
@@ -729,7 +788,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       12
-    ]
+    ],
+    "en_speech": "Navigli Canals"
   },
   {
     "id": "item-61",
@@ -741,7 +801,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       10
-    ]
+    ],
+    "en_speech": "Saint John Church in Ranui"
   },
   {
     "id": "item-62",
@@ -751,7 +812,8 @@ const DOLOMITES_DATA = [
     "zh": "阿道夫蒙克爾步道",
     "note": "富內斯谷貼近蓋斯勒群峰山麓經典步道",
     "lang": "it-IT",
-    "days": []
+    "days": [],
+    "en_speech": "Adolf Munkel Trail"
   },
   {
     "id": "item-63",
@@ -767,7 +829,8 @@ const DOLOMITES_DATA = [
       11,
       12,
       13
-    ]
+    ],
+    "en_speech": "Milano Malpensa Airport (MXP)"
   },
   {
     "id": "item-64",
@@ -783,7 +846,8 @@ const DOLOMITES_DATA = [
       11,
       12,
       13
-    ]
+    ],
+    "en_speech": "Milano Centrale"
   },
   {
     "id": "item-65",
@@ -797,7 +861,8 @@ const DOLOMITES_DATA = [
       1,
       2,
       3
-    ]
+    ],
+    "en_speech": "Stazione di Venezia Santa Lucia"
   },
   {
     "id": "item-66",
@@ -807,7 +872,8 @@ const DOLOMITES_DATA = [
     "zh": "羅馬廣場",
     "note": "威尼斯主島陸路巴士與計程車終點站",
     "lang": "it-IT",
-    "days": []
+    "days": [],
+    "en_speech": "Piazzale Roma"
   },
   {
     "id": "item-67",
@@ -823,7 +889,8 @@ const DOLOMITES_DATA = [
       6,
       7,
       8
-    ]
+    ],
+    "en_speech": "Cortina Autostazione"
   },
   {
     "id": "item-68",
@@ -835,7 +902,8 @@ const DOLOMITES_DATA = [
     "lang": "it-IT",
     "days": [
       11
-    ]
+    ],
+    "en_speech": "Bolzano Autostazione"
   },
   {
     "id": "item-69",
@@ -848,7 +916,8 @@ const DOLOMITES_DATA = [
     "days": [
       1,
       2
-    ]
+    ],
+    "en_speech": "Hotel Aaron"
   },
   {
     "id": "item-70",
@@ -864,7 +933,8 @@ const DOLOMITES_DATA = [
       6,
       7,
       8
-    ]
+    ],
+    "en_speech": "Radisson Residences Savoia Palace"
   },
   {
     "id": "item-71",
@@ -878,7 +948,8 @@ const DOLOMITES_DATA = [
       8,
       9,
       10
-    ]
+    ],
+    "en_speech": "Alpstay - Smart Hotel Saslong"
   },
   {
     "id": "item-72",
@@ -891,6 +962,7 @@ const DOLOMITES_DATA = [
     "days": [
       11,
       12
-    ]
+    ],
+    "en_speech": "B&B Terrazza Baires"
   }
 ];

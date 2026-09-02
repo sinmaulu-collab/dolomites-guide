@@ -13,15 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
   let speechSynth = window.speechSynthesis;
   let availableVoices = [];
   let currentSpeechItem = null;
-  let isPlayingAutoBilingual = false;
+  let currentSpeechMode = 'local'; // 'local' or 'en'
   
   let speechSettings = {
     speed: parseFloat(localStorage.getItem('tts_speed') || '1.0'),
     pitch: 1.0,
-    autoBilingual: localStorage.getItem('tts_auto_bilingual') !== 'false',
     itVoice: null,
     deVoice: null,
-    zhVoice: null
+    enVoice: null
   };
 
   // DOM Elements
@@ -32,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewContentArea = document.getElementById('viewContentArea');
   const favOnlyBtn = document.getElementById('favOnlyBtn');
   const totalCountSpan = document.getElementById('totalCountSpan');
+  const speedSelectorGroup = document.getElementById('speedSelectorGroup');
   
   // Speech Floating Bar Elements
   const floatingAudioBar = document.getElementById('floatingAudioBar');
@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const floatingZh = document.getElementById('floatingZh');
   const floatingPlayBtn = document.getElementById('floatingPlayBtn');
   const floatingStopBtn = document.getElementById('floatingStopBtn');
+  const floatingSpeedBtn = document.getElementById('floatingSpeedBtn');
   
   // Modal Elements
   const voiceSettingsBtn = document.getElementById('voiceSettingsBtn');
@@ -46,10 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeModalBtn = document.getElementById('closeModalBtn');
   const voiceItSelect = document.getElementById('voiceItSelect');
   const voiceDeSelect = document.getElementById('voiceDeSelect');
-  const voiceZhSelect = document.getElementById('voiceZhSelect');
+  const voiceEnSelect = document.getElementById('voiceEnSelect');
   const ttsSpeedRange = document.getElementById('ttsSpeedRange');
   const ttsSpeedVal = document.getElementById('ttsSpeedVal');
-  const autoBilingualToggle = document.getElementById('autoBilingualToggle');
   const testVoiceBtn = document.getElementById('testVoiceBtn');
 
   // Flashcards state
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Auto detect best voices
     const savedIt = localStorage.getItem('voice_it');
     const savedDe = localStorage.getItem('voice_de');
-    const savedZh = localStorage.getItem('voice_zh');
+    const savedEn = localStorage.getItem('voice_en');
     
     speechSettings.itVoice = availableVoices.find(v => v.name === savedIt) || 
       availableVoices.find(v => v.lang.startsWith('it')) || 
@@ -75,9 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
       availableVoices.find(v => v.lang.startsWith('de')) || 
       availableVoices.find(v => v.lang.includes('DE')) || null;
       
-    speechSettings.zhVoice = availableVoices.find(v => v.name === savedZh) || 
-      availableVoices.find(v => v.lang === 'zh-TW') || 
-      availableVoices.find(v => v.lang.startsWith('zh')) || null;
+    speechSettings.enVoice = availableVoices.find(v => v.name === savedEn) || 
+      availableVoices.find(v => v.lang.startsWith('en-US')) || 
+      availableVoices.find(v => v.lang.startsWith('en-GB')) || 
+      availableVoices.find(v => v.lang.startsWith('en')) || null;
 
     populateVoiceSelects();
   }
@@ -94,21 +95,36 @@ document.addEventListener('DOMContentLoaded', () => {
     
     voiceItSelect.innerHTML = '<option value="">系統自動選擇 (義大利語)</option>';
     voiceDeSelect.innerHTML = '<option value="">系統自動選擇 (德語)</option>';
-    voiceZhSelect.innerHTML = '<option value="">系統自動選擇 (中文)</option>';
+    voiceEnSelect.innerHTML = '<option value="">系統自動選擇 (英語)</option>';
 
     availableVoices.forEach(v => {
       const optionIt = new Option(`${v.name} (${v.lang})`, v.name, false, speechSettings.itVoice?.name === v.name);
       const optionDe = new Option(`${v.name} (${v.lang})`, v.name, false, speechSettings.deVoice?.name === v.name);
-      const optionZh = new Option(`${v.name} (${v.lang})`, v.name, false, speechSettings.zhVoice?.name === v.name);
+      const optionEn = new Option(`${v.name} (${v.lang})`, v.name, false, speechSettings.enVoice?.name === v.name);
       
       voiceItSelect.add(optionIt);
       voiceDeSelect.add(optionDe);
-      voiceZhSelect.add(optionZh);
+      voiceEnSelect.add(optionEn);
     });
   }
 
-  // Speak Functionality
-  function speakItem(item, callback = null) {
+  // Update Speed UI everywhere
+  function setSpeed(speedVal) {
+    speechSettings.speed = parseFloat(speedVal);
+    localStorage.setItem('tts_speed', speechSettings.speed);
+
+    // Update buttons UI
+    document.querySelectorAll('.speed-btn[data-speed]').forEach(btn => {
+      btn.classList.toggle('active', parseFloat(btn.dataset.speed) === speechSettings.speed);
+    });
+
+    if (ttsSpeedVal) ttsSpeedVal.textContent = `${speechSettings.speed}x`;
+    if (ttsSpeedRange) ttsSpeedRange.value = speechSettings.speed;
+    if (floatingSpeedBtn) floatingSpeedBtn.textContent = `⚡ ${speechSettings.speed}x`;
+  }
+
+  // Speak Functionality (Local Italian/German or English, NO CHINESE)
+  function speakItem(item, mode = 'local', callback = null) {
     if (!speechSynth) {
       alert('您的瀏覽器不支援 Web Speech API 語音朗讀功能。');
       return;
@@ -116,39 +132,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     speechSynth.cancel(); // Stop current speech
     currentSpeechItem = item;
-    updateFloatingBar(item, true);
+    currentSpeechMode = mode;
+    updateFloatingBar(item, mode, true);
 
-    // Text to pronounce: Clean original name
-    let cleanText = item.orig.split('/')[0].trim();
-    cleanText = cleanText.replace(/\([^)]*\)/g, '').trim();
+    let textToSpeak = '';
+    let voiceToUse = null;
+    let targetLang = 'it-IT';
 
-    const utter = new SpeechSynthesisUtterance(cleanText);
+    if (mode === 'en') {
+      textToSpeak = item.en_speech || item.orig;
+      textToSpeak = textToSpeak.replace(/\([^)]*\)/g, '').trim();
+      voiceToUse = speechSettings.enVoice;
+      targetLang = 'en-US';
+    } else {
+      // Local Italian / German
+      textToSpeak = item.orig.split('/')[0].trim();
+      textToSpeak = textToSpeak.replace(/\([^)]*\)/g, '').trim();
+      if (item.lang === 'de-DE') {
+        voiceToUse = speechSettings.deVoice;
+        targetLang = 'de-DE';
+      } else {
+        voiceToUse = speechSettings.itVoice;
+        targetLang = 'it-IT';
+      }
+    }
+
+    const utter = new SpeechSynthesisUtterance(textToSpeak);
     utter.rate = speechSettings.speed;
     utter.pitch = speechSettings.pitch;
 
-    // Set Voice/Lang
-    if (item.lang === 'de-DE' && speechSettings.deVoice) {
-      utter.voice = speechSettings.deVoice;
-      utter.lang = 'de-DE';
-    } else if (speechSettings.itVoice) {
-      utter.voice = speechSettings.itVoice;
-      utter.lang = 'it-IT';
-    } else {
-      utter.lang = item.lang || 'it-IT';
-    }
+    if (voiceToUse) utter.voice = voiceToUse;
+    utter.lang = targetLang;
 
     utter.onend = () => {
-      if (speechSettings.autoBilingual && item.zh) {
-        speakChineseName(item.zh, callback);
-      } else {
-        updateFloatingBar(null, false);
-        highlightCardPlaying(null);
-        if (callback) callback();
-      }
+      updateFloatingBar(null, 'local', false);
+      highlightCardPlaying(null);
+      if (callback) callback();
     };
 
     utter.onerror = () => {
-      updateFloatingBar(null, false);
+      updateFloatingBar(null, 'local', false);
       highlightCardPlaying(null);
     };
 
@@ -156,39 +179,22 @@ document.addEventListener('DOMContentLoaded', () => {
     speechSynth.speak(utter);
   }
 
-  function speakChineseName(zhText, callback) {
-    const cleanZh = zhText.split('/')[0].trim().replace(/\([^)]*\)/g, '');
-    const utterZh = new SpeechSynthesisUtterance(cleanZh);
-    utterZh.rate = speechSettings.speed;
-    if (speechSettings.zhVoice) {
-      utterZh.voice = speechSettings.zhVoice;
-    }
-    utterZh.lang = 'zh-TW';
-
-    utterZh.onend = () => {
-      updateFloatingBar(null, false);
-      highlightCardPlaying(null);
-      if (callback) callback();
-    };
-
-    speechSynth.speak(utterZh);
-  }
-
   function stopSpeech() {
     if (speechSynth) {
       speechSynth.cancel();
     }
     currentSpeechItem = null;
-    updateFloatingBar(null, false);
+    updateFloatingBar(null, 'local', false);
     highlightCardPlaying(null);
   }
 
-  function updateFloatingBar(item, isPlaying) {
+  function updateFloatingBar(item, mode, isPlaying) {
     if (!item || !isPlaying) {
       floatingAudioBar.classList.add('hidden');
       return;
     }
-    floatingTitle.textContent = item.orig;
+    const flag = mode === 'en' ? '🇬🇧 英語唸法' : (item.lang === 'de-DE' ? '🇩🇪 當地原音 (德語)' : '🇮🇹 當地原音 (義語)');
+    floatingTitle.textContent = `${item.orig} [${flag}]`;
     floatingZh.textContent = item.zh;
     floatingAudioBar.classList.remove('hidden');
   }
@@ -278,6 +284,12 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       dayFiltersContainer.appendChild(btn);
     }
+
+    // Speed Selector Buttons
+    document.querySelectorAll('.speed-btn[data-speed]').forEach(btn => {
+      btn.onclick = () => setSpeed(btn.dataset.speed);
+    });
+    setSpeed(speechSettings.speed);
   }
 
   // Render Views
@@ -296,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // View 1: CARDS GRID VIEW
+  // View 1: CARDS GRID VIEW (WITH SEPARATE LOCAL & ENGLISH PLAY BUTTONS)
   function renderCardsView(data) {
     if (data.length === 0) {
       viewContentArea.innerHTML = `
@@ -314,6 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
     data.forEach(item => {
       const isFav = favorites.has(item.id);
       const dayBadges = item.days.map(d => `<span class="day-chip">D${d}</span>`).join(' ');
+      const localFlag = item.lang === 'de-DE' ? '🇩🇪 原音' : '🇮🇹 原音';
 
       const card = document.createElement('div');
       card.className = 'place-card';
@@ -334,14 +347,24 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="card-footer">
           <div class="day-badge-list">${dayBadges}</div>
-          <button class="play-audio-btn">
-            <span>🔊 朗讀</span>
-            <div class="wave-bars">
-              <span class="wave-bar"></span>
-              <span class="wave-bar"></span>
-              <span class="wave-bar"></span>
-            </div>
-          </button>
+          <div class="audio-btn-group">
+            <button class="play-audio-btn local-btn">
+              <span>${localFlag}</span>
+              <div class="wave-bars">
+                <span class="wave-bar"></span>
+                <span class="wave-bar"></span>
+                <span class="wave-bar"></span>
+              </div>
+            </button>
+            <button class="play-audio-btn en-btn">
+              <span>🇬🇧 英語</span>
+              <div class="wave-bars">
+                <span class="wave-bar"></span>
+                <span class="wave-bar"></span>
+                <span class="wave-bar"></span>
+              </div>
+            </button>
+          </div>
         </div>
       `;
 
@@ -351,8 +374,12 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleFavorite(item.id);
       };
 
-      card.querySelector('.play-audio-btn').onclick = () => {
-        speakItem(item);
+      card.querySelector('.local-btn').onclick = () => {
+        speakItem(item, 'local');
+      };
+
+      card.querySelector('.en-btn').onclick = () => {
+        speakItem(item, 'en');
       };
 
       grid.appendChild(card);
@@ -374,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <table class="custom-table">
           <thead>
             <tr>
-              <th style="width: 50px;">語音</th>
+              <th style="width: 140px;">語音發音</th>
               <th>原名／外文名稱</th>
               <th>發音指南 (IPA)</th>
               <th>台灣常用中文譯名</th>
@@ -389,13 +416,19 @@ document.addEventListener('DOMContentLoaded', () => {
     data.forEach(item => {
       const isFav = favorites.has(item.id);
       const dayChips = item.days.map(d => `<span class="day-chip">D${d}</span>`).join(' ');
+      const localFlag = item.lang === 'de-DE' ? '🇩🇪 原音' : '🇮🇹 原音';
 
       html += `
         <tr data-id="${item.id}">
           <td>
-            <button class="play-audio-btn" style="padding: 6px 10px; font-size: 0.8rem;" onclick="window.appSpeak('${item.id}')">
-              🔊
-            </button>
+            <div style="display: flex; gap: 4px;">
+              <button class="play-audio-btn" style="padding: 4px 8px; font-size: 0.75rem;" onclick="window.appSpeak('${item.id}', 'local')">
+                ${localFlag}
+              </button>
+              <button class="play-audio-btn en-btn" style="padding: 4px 8px; font-size: 0.75rem;" onclick="window.appSpeak('${item.id}', 'en')">
+                🇬🇧 英語
+              </button>
+            </div>
           </td>
           <td style="font-weight: 700; color: #fff;">${item.orig}</td>
           <td style="font-family: monospace; font-size: 0.88rem; color: #cbd5e1; white-space: pre-line;">${item.phonetic}</td>
@@ -419,9 +452,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Global helper for table view inline onclick
-  window.appSpeak = (id) => {
+  window.appSpeak = (id, mode = 'local') => {
     const item = DOLOMITES_DATA.find(d => d.id === id);
-    if (item) speakItem(item);
+    if (item) speakItem(item, mode);
   };
 
   window.appFav = (id) => {
@@ -444,6 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const item = flashcardList[currentFlashcardIdx];
     const isFav = favorites.has(item.id);
+    const localFlag = item.lang === 'de-DE' ? '🇩🇪 當地原音 (德語)' : '🇮🇹 當地原音 (義語)';
 
     viewContentArea.innerHTML = `
       <div style="text-align: center; margin-bottom: 12px; color: var(--text-muted); font-size: 0.9rem;">
@@ -455,9 +489,14 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="card-category-badge" style="margin-bottom: 20px;">${item.category.split('(')[0].trim()}</span>
             <h2 style="font-size: 2.2rem; color: #fff; margin-bottom: 16px;">${item.orig}</h2>
             <div class="card-phonetic-box" style="font-size: 1rem; width: 100%; max-width: 400px; margin-bottom: 24px;">${item.phonetic}</div>
-            <button class="play-audio-btn" style="padding: 10px 24px; font-size: 1rem;" id="cardPlayBtn">
-              🔊 播放朗讀
-            </button>
+            <div style="display: flex; gap: 12px;" id="cardBtnContainer">
+              <button class="play-audio-btn" style="padding: 10px 20px; font-size: 0.95rem;" id="cardPlayLocalBtn">
+                🔊 ${localFlag}
+              </button>
+              <button class="play-audio-btn en-btn" style="padding: 10px 20px; font-size: 0.95rem;" id="cardPlayEnBtn">
+                🇬🇧 英語唸法
+              </button>
+            </div>
           </div>
           <div class="flashcard-back">
             <h3 style="font-size: 1.8rem; color: var(--text-highlight); margin-bottom: 12px;">${item.zh}</h3>
@@ -475,17 +514,21 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
 
     const flashcardEl = document.getElementById('flashcardEl');
-    const cardPlayBtn = document.getElementById('cardPlayBtn');
     
     flashcardEl.onclick = (e) => {
-      if (e.target.closest('#cardPlayBtn')) return;
+      if (e.target.closest('#cardBtnContainer')) return;
       isFlashcardFlipped = !isFlashcardFlipped;
       flashcardEl.classList.toggle('flipped', isFlashcardFlipped);
     };
 
-    cardPlayBtn.onclick = (e) => {
+    document.getElementById('cardPlayLocalBtn').onclick = (e) => {
       e.stopPropagation();
-      speakItem(item);
+      speakItem(item, 'local');
+    };
+
+    document.getElementById('cardPlayEnBtn').onclick = (e) => {
+      e.stopPropagation();
+      speakItem(item, 'en');
     };
 
     document.getElementById('prevCardBtn').onclick = () => {
@@ -544,16 +587,24 @@ document.addEventListener('DOMContentLoaded', () => {
           </button>
         </div>
         <div class="day-places-grid">
-          ${dayItems.map(item => `
+          ${dayItems.map(item => {
+            const localFlag = item.lang === 'de-DE' ? '🇩🇪 原音' : '🇮🇹 原音';
+            return `
             <div class="place-card" style="padding: 14px;" data-id="${item.id}">
               <div style="font-weight: 700; color: #fff;">${item.orig}</div>
               <div style="color: var(--text-highlight); font-weight:700; font-size: 0.92rem;">${item.zh}</div>
               <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 4px;">${item.note}</div>
-              <button class="play-audio-btn" style="margin-top: 8px; padding: 4px 10px; font-size: 0.8rem;" onclick="window.appSpeak('${item.id}')">
-                🔊 朗讀
-              </button>
+              <div style="display: flex; gap: 6px; margin-top: 10px;">
+                <button class="play-audio-btn" style="padding: 4px 8px; font-size: 0.78rem;" onclick="window.appSpeak('${item.id}', 'local')">
+                  ${localFlag}
+                </button>
+                <button class="play-audio-btn en-btn" style="padding: 4px 8px; font-size: 0.78rem;" onclick="window.appSpeak('${item.id}', 'en')">
+                  🇬🇧 英語
+                </button>
+              </div>
             </div>
-          `).join('')}
+            `;
+          }).join('')}
         </div>
       `;
 
@@ -572,9 +623,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let idx = 0;
     function playNext() {
       if (idx < data.length) {
-        speakItem(data[idx], () => {
+        speakItem(data[idx], 'local', () => {
           idx++;
-          setTimeout(playNext, 600);
+          setTimeout(playNext, 500);
         });
       }
     }
@@ -627,9 +678,7 @@ document.addEventListener('DOMContentLoaded', () => {
   settingsModal.onclick = (e) => { if (e.target === settingsModal) settingsModal.classList.remove('active'); };
 
   ttsSpeedRange.addEventListener('input', (e) => {
-    speechSettings.speed = parseFloat(e.target.value);
-    ttsSpeedVal.textContent = `${speechSettings.speed}x`;
-    localStorage.setItem('tts_speed', speechSettings.speed);
+    setSpeed(e.target.value);
   });
 
   voiceItSelect.addEventListener('change', (e) => {
@@ -642,27 +691,32 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('voice_de', e.target.value);
   });
 
-  voiceZhSelect.addEventListener('change', (e) => {
-    speechSettings.zhVoice = availableVoices.find(v => v.name === e.target.value) || null;
-    localStorage.setItem('voice_zh', e.target.value);
-  });
-
-  autoBilingualToggle.addEventListener('change', (e) => {
-    speechSettings.autoBilingual = e.target.checked;
-    localStorage.setItem('tts_auto_bilingual', e.target.checked);
+  voiceEnSelect.addEventListener('change', (e) => {
+    speechSettings.enVoice = availableVoices.find(v => v.name === e.target.value) || null;
+    localStorage.setItem('voice_en', e.target.value);
   });
 
   testVoiceBtn.onclick = () => {
-    speakItem(DOLOMITES_DATA[0]);
+    speakItem(DOLOMITES_DATA[1], 'local');
   };
 
   floatingPlayBtn.onclick = () => {
-    if (currentSpeechItem) speakItem(currentSpeechItem);
+    if (currentSpeechItem) speakItem(currentSpeechItem, currentSpeechMode);
   };
 
   floatingStopBtn.onclick = () => {
     stopSpeech();
   };
+
+  // Floating speed button toggle cycle: 0.75x -> 1.0x -> 1.25x -> 1.5x -> 0.75x
+  if (floatingSpeedBtn) {
+    floatingSpeedBtn.onclick = () => {
+      const speeds = [0.75, 1.0, 1.25, 1.5];
+      const curIdx = speeds.indexOf(speechSettings.speed);
+      const nextSpeed = speeds[(curIdx + 1) % speeds.length];
+      setSpeed(nextSpeed);
+    };
+  }
 
   // Initial setup
   initFilters();

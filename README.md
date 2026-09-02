@@ -1,6 +1,6 @@
 # 🇮🇹 多洛米蒂 (Dolomites) 行程地點發音與中義德英對照指南
 
-> 🏔️ 專為義大利多洛米蒂（Dolomites）自助旅行與健行設計的互動式網頁發音隨行卡！收錄 72 個行程重點地點、國際音標（IPA）、台灣常用中文譯名及語音朗讀。
+> 🏔️ 專為義大利多洛米蒂（Dolomites）自助旅行與健行設計的互動式網頁發音隨行卡！收錄 72 個行程重點地點、國際音標（IPA）、台灣常用中文譯名及獨立雙音軌語音朗讀。
 
 ![Dolomites Banner](hero_bg.jpg)
 
@@ -12,15 +12,16 @@
 
 ## ✨ 核心特色與功能
 
-### 1. 🔊 多國語音真人朗讀 (Web Speech API Engine)
-* **智慧語言識別**：自動針對義大利語地名（如 *Cortina, Seceda, Rifugio Lagazuoi*）、德語地名（如 *Villnöß, Seekofelhütte*）與中文譯名載入最適人聲。
-* **自動雙語連讀**：點擊即可連續播放「外文原名發音 ➔ 台灣中文譯名」。
-* **朗讀速度控制**：支援 0.5x ~ 1.5x 語速調節、選擇指定聲線與測試播放。
+### 1. 🔊 獨立雙音軌真人朗讀與速度控制 (Web Speech API Engine)
+* **🇮🇹/🇩🇪 當地原音**：根據當地官方語言朗讀道地的義大利語（如 *Cortina, Seceda, Rifugio Lagazuoi*）或德語原名（如 *Villnöß, Seekofelhütte*）。
+* **🇬🇧 英語唸法**：提供英語系國家遊客習慣的自然英文讀音與習慣名稱（如 *Mount Seceda*, *Lake Braies*, *Three Peaks of Lavaredo*）。
+* **⚡ 播放速度控制 (Playback Speed)**：提供 `0.75x 慢速`、`1.0x 標準`、`1.25x 稍快`、`1.5x 快速` 一鍵快選，底部播放列亦支援單鍵循環切換。
+* **專注外語發音**：專為地名聽讀設計，無需聆聽中文翻譯，提升旅遊聽力與口語練習效率。
 
 ### 2. 🎛️ 四大檢視與練習模式
-* 🎴 **發音卡片 (Grid Cards)**：玻璃擬物高顏值卡片，附音標、動態音波動畫、行程註記與天數標籤。
+* 🎴 **發音卡片 (Grid Cards)**：玻璃擬物高顏值卡片，附雙音軌按鈕、IPA音標、動態音波動畫、行程註記與天數標籤。
 * 📊 **對照表格 (Data Table)**：適合快速閱讀與整批搜尋的清晰資料表格。
-* 🗂️ **單字練習卡 (Flashcards)**：可點擊 3D 翻轉的單字卡，支援隨機抽卡與自主記憶測試。
+* 🗂️ **單字練習卡 (Flashcards)**：可點擊 3D 翻轉的單字卡，支援雙音軌播放、隨機抽卡與自主記憶測試。
 * 🗺️ **行程天數巡禮 (Itinerary Timeline)**：按 Day 0 至 Day 14 行程排序，支援「當日語音巡禮」全自動播放。
 
 ### 3. 🔍 智慧搜尋與篩選
@@ -40,9 +41,9 @@
 2. 開啟終端機 (Terminal)，在專案目錄下執行以下指令：
 
 ```bash
-# 1. 檢查檔案並進行第一次 Commit
+# 1. 檢查檔案並 Commit
 git add .
-git commit -m "Initial commit: Dolomites interactive guide web app"
+git commit -m "Update speech features & README"
 
 # 2. 重新命名預設分支為 main
 git branch -M main

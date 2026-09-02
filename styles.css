@@ -191,6 +191,39 @@ body {
   color: #fff;
 }
 
+/* Speed Selector Group */
+.speed-selector-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.speed-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-glass);
+  color: var(--text-muted);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.speed-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.speed-btn.active {
+  background: rgba(0, 180, 216, 0.25);
+  border-color: var(--cyan-glacier);
+  color: var(--cyan-glacier);
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(0, 180, 216, 0.3);
+}
+
 /* Filter Tags (Categories) */
 .filter-label {
   font-size: 0.9rem;
@@ -239,7 +272,6 @@ body {
   gap: 6px;
   overflow-x: auto;
   padding-bottom: 6px;
-
 }
 
 .day-btn {
@@ -435,8 +467,8 @@ body {
 
 .card-footer {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 12px;
   padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -455,25 +487,40 @@ body {
   border-radius: 4px;
 }
 
+/* Dual Audio Buttons Group */
+.audio-btn-group {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
 .play-audio-btn {
+  flex: 1;
   background: linear-gradient(135deg, var(--primary-accent) 0%, var(--primary-glow) 100%);
   color: #0b1320;
   border: none;
-  padding: 8px 16px;
+  padding: 8px 12px;
   border-radius: 20px;
-  font-size: 0.9rem;
+  font-size: 0.84rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   transition: var(--transition);
   box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
 }
 
+.play-audio-btn.en-btn {
+  background: linear-gradient(135deg, var(--cyan-glacier) 0%, #0077b6 100%);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
+}
+
 .play-audio-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 16px rgba(243, 156, 18, 0.5);
+  transform: translateY(-2px);
+  filter: brightness(1.1);
 }
 
 /* Audio Waveform Animation */
@@ -486,7 +533,7 @@ body {
 
 .wave-bar {
   width: 3px;
-  background-color: #0b1320;
+  background-color: currentColor;
   border-radius: 2px;
   animation: wave 1s infinite ease-in-out;
 }
@@ -543,7 +590,7 @@ body {
 
 .flashcard {
   width: 100%;
-  min-height: 340px;
+  min-height: 360px;
   background: var(--bg-card);
   border: 1px solid var(--border-glass-glow);
   border-radius: 24px;
@@ -737,4 +784,5 @@ body {
   .cards-grid { grid-template-columns: 1fr; }
   .floating-audio-bar { width: 90%; padding: 12px 16px; gap: 10px; justify-content: space-between; }
   .view-tabs-bar { flex-direction: column; align-items: stretch; }
+  .audio-btn-group { flex-direction: column; }
 }
